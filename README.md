@@ -1,36 +1,187 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Locky Barber 💈
 
-## Getting Started
+Landing page premium para **Locky Barber**, una peluquería/barbería de lujo. Diseño minimalista y oscuro con acentos rojos, construida con Next.js 16 (App Router) y animaciones fluidas con Framer Motion.
 
-First, run the development server:
+## ✨ Características
+
+| Característica            | Descripción                                                                       |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| **Hero animado**          | Sección principal con imagen de fondo, tipografía serif y animaciones escalonadas |
+| **Video Showcase**        | Banner con video autoplay en bucle, overlay gradiente y texto superpuesto         |
+| **Servicios reales**      | 8 servicios con precios, duración e iconos Lucide                                 |
+| **Galería interactiva**   | Lightbox modal con imágenes categorizadas                                         |
+| **Formulario de reserva** | Formulario funcional con validación y estados de envío                            |
+| **Testimonios**           | Carrusel de reseñas con estrellas y citas                                         |
+| **Blog Preview**          | Vista previa de artículos con categorías y fechas                                 |
+| **WhatsApp Float**        | Botón flotante de contacto directo                                                |
+| **Navbar responsivo**     | Menú adaptable con backdrop-blur al hacer scroll                                  |
+| **Footer completo**       | Enlaces, contacto, horario y redes sociales                                       |
+
+## 🛠️ Tecnologías
+
+| Tecnología                                      | Versión              |
+| ----------------------------------------------- | -------------------- |
+| [Next.js](https://nextjs.org/)                  | 16.2.12 (App Router) |
+| [React](https://react.dev/)                     | 19.2.4               |
+| [TypeScript](https://www.typescriptlang.org/)   | 5.x                  |
+| [Tailwind CSS](https://tailwindcss.com/)        | 4.x                  |
+| [Framer Motion](https://www.framer.com/motion/) | 12.43.0              |
+| [Lucide React](https://lucide.dev/)             | 1.27.0               |
+
+## 🚀 Instalación y ejecución
 
 ```bash
+# 1. Clonar el repositorio
+git clone https://github.com/tu-usuario/locky-barber.git
+cd locky-barber
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar en modo desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 4. Abrir en el navegador
+# http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estructura del proyecto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+locky-barber/
+├── app/                          # App Router (raíz real de la aplicación)
+│   ├── globals.css               # Estilos globales y variables CSS
+│   ├── layout.tsx                # Layout raíz (fuentes, metadatos)
+│   └── page.tsx                  # Página principal (Hero + secciones)
+│
+├── src/                          # Código fuente (alias @)
+│   ├── app/                      # ⚠️ Copia duplicada (no utilizada)
+│   │   ├── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── components/
+│   │   ├── layout/               # Componentes de estructura
+│   │   │   ├── Navbar.tsx        # Barra de navegación con logo
+│   │   │   ├── Footer.tsx        # Pie de página completo
+│   │   │   └── WhatsAppFloat.tsx # Botón flotante de WhatsApp
+│   │   │
+│   │   └── sections/             # Secciones de la landing page
+│   │       ├── VideoShowcase.tsx # Banner de video autoplay
+│   │       ├── Services.tsx      # Tarjetas de servicios
+│   │       ├── Gallery.tsx       # Galería con lightbox
+│   │       ├── BookingForm.tsx   # Formulario de reserva
+│   │       ├── Testimonials.tsx  # Carrusel de reseñas
+│   │       └── BlogPreview.tsx   # Vista previa de artículos
+│   │
+│   ├── lib/
+│   │   ├── utils.ts              # Utilidades (cn, etc.)
+│   │   └── validations.ts        # Esquemas de validación
+│   │
+│   └── public/                   # Assets estáticos
+│       ├── images/
+│       │   └── logo.png          # Logo de la marca
+│       └── videos/
+│           └── showcase.mp4      # Video de showcase
+│
+├── public/                       # Assets servidos por Next.js
+│   └── videos/
+│       └── showcase.mp4          # Video (copia funcional)
+│
+├── next.config.ts                # Configuración de Next.js
+├── tsconfig.json                 # Configuración de TypeScript
+├── tailwind.config.ts            # Configuración de Tailwind
+└── package.json                  # Dependencias y scripts
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📜 Scripts disponibles
 
-## Learn More
+| Comando         | Descripción                                       |
+| --------------- | ------------------------------------------------- |
+| `npm run dev`   | Inicia servidor de desarrollo en `localhost:3000` |
+| `npm run build` | Compila para producción                           |
+| `npm run start` | Inicia servidor de producción                     |
+| `npm run lint`  | Ejecuta ESLint                                    |
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Diseño y estilo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Fondo**: `#0F0F0F` (negro carbón)
+- **Acento principal**: `#C1121F` (rojo intenso)
+- **Acento secundario**: `#C9A84C` (dorado)
+- **Tipografía**: Playfair Display (serif) + Poppins (sans-serif)
+- **Animaciones**: Framer Motion con delays escalonados y `whileInView`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Notas técnicas
 
-## Deploy on Vercel
+### 1. Logo en el Navbar (`<img>` nativa vs `next/image`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+El logo usa una etiqueta `<img>` nativa en lugar del componente `<Image />` de Next.js. Esto se debe a que el logo requiere filtros CSS (`brightness-0 invert`) para adaptarse al fondo oscuro. Next.js `Image` lanza un error de hidratación cuando se modifican las dimensiones mediante CSS, rompiendo la ejecución del resto de componentes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```tsx
+// ✅ Solución actual
+<img src="/logo.png" alt="Locky Barber" className="brightness-0 invert" />
+
+// ❌ Evitar: next/image con filtros CSS
+<Image src="/logo.png" alt="Locky Barber" className="brightness-0 invert" />
+```
+
+### 2. Archivos duplicados (`app/` vs `src/app/`)
+
+El proyecto tiene dos archivos `page.tsx`:
+
+- **`app/page.tsx`** → El que realmente usa la aplicación (layout raíz en `app/layout.tsx`)
+- **`src/app/page.tsx`** → Copia no utilizada (el alias `@` apunta a `src/`, pero el layout raíz está en `app/`)
+
+**Siempre editar `app/page.tsx`** para cambios en la página principal.
+
+### 3. VideoShowcase (código mínimo funcional)
+
+El componente de video está deliberadamente simplificado:
+
+- Sin estados complejos, sin `useEffect`, sin `onError`
+- Sin Framer Motion en el contenedor principal
+- El video se renderiza siempre, sin condicionales
+- Esto evita errores asíncronos que rompían el renderizado
+
+```tsx
+// Estructura base probada y funcional
+<div className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    className="absolute inset-0 w-full h-full object-cover z-0"
+  >
+    <source src="/videos/showcase.mp4" type="video/mp4" />
+  </video>
+  <div className="absolute inset-0 bg-gradient-to-b ... z-10 flex ...">
+    {/* Texto superpuesto */}
+  </div>
+</div>
+```
+
+### 4. `suppressHydrationWarning` en layout.tsx
+
+Se añadió `suppressHydrationWarning` a la etiqueta `<html>` para evitar warnings de hidratación causados por extensiones del navegador (como QuillBot) que modifican el DOM. Esto no afecta al funcionamiento de la aplicación.
+
+### 5. Formulario de reserva
+
+El formulario (`BookingForm.tsx`) usa `data-service` en los botones de selección de servicio para facilitar una futura integración con APIs de reservas. Los datos se envían actualmente a un console.log como placeholder.
+
+### 6. Variables de entorno
+
+No se requieren variables de entorno para el funcionamiento básico. Si se integra una API de reservas en el futuro, se recomienda usar:
+
+```env
+NEXT_PUBLIC_API_URL=https://api.ejemplo.com
+NEXT_PUBLIC_WHATSAPP_NUMBER=34600000000
+```
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios propuestos.
+
+## 📄 Licencia
+
+MIT © 2026 Locky Barber
