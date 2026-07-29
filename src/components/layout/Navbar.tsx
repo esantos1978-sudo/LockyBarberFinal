@@ -29,24 +29,24 @@ export default function Navbar() {
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-brand-black/80 backdrop-blur-md py-4 border-b border-white/5"
-          : "bg-transparent py-6"
+          ? "bg-brand-black/80 backdrop-blur-md py-4 border-b-0"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        {/* Logo con Imagen - Filtro para fondo oscuro */}
+        {/* Logo */}
         <Link href="/" className="block shrink-0">
           <img
             src="/logo.png"
             alt="Locky Barber Logo"
-            width={180}
-            height={60}
-            className="w-[180px] h-[60px] object-contain brightness-0 invert opacity-90 hover:opacity-80 transition-opacity duration-300"
+            width={320}
+            height={100}
+            className="w-[220px] h-auto md:w-[320px] md:h-auto brightness-0 invert opacity-90 hover:opacity-80 transition-opacity duration-300"
           />
         </Link>
 
-        {/* Menú Escritorio */}
-        <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+        {/* Menú Escritorio - Centrado */}
+        <div className="hidden md:flex gap-10 text-sm font-medium text-gray-300 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <Link
               key={link.name}

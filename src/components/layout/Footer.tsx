@@ -1,87 +1,109 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-black pt-20 pb-10 px-6 md:px-12 border-t border-white/5">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
-        {/* Branding */}
+      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 mb-16">
+        {/* Columna 1: Logo + Descripción */}
         <div>
           <div className="text-2xl font-serif font-bold tracking-wider mb-6">
             LOCKY<span className="text-brand-red">&</span>BARBER
           </div>
-          <p className="text-gray-500 text-sm leading-relaxed">
+          <p className="text-gray-500 text-sm leading-relaxed mb-6">
             Redefiniendo el concepto de peluquería. Estilo, precisión y atención
             al detalle en cada visita.
           </p>
+          {/* Enlaces rápidos */}
+          <div>
+            <h4 className="font-bold mb-4 text-white text-sm uppercase tracking-wider">
+              Explora
+            </h4>
+            <ul className="space-y-2 text-gray-500 text-sm">
+              <li>
+                <a href="#" className="hover:text-brand-red transition-colors">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#servicios"
+                  className="hover:text-brand-red transition-colors"
+                >
+                  Servicios
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#galeria"
+                  className="hover:text-brand-red transition-colors"
+                >
+                  Galería
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#reserva"
+                  className="hover:text-brand-red transition-colors"
+                >
+                  Reservar
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Enlaces */}
+        {/* Columna 2: Contacto con datos reales */}
         <div>
-          <h4 className="font-bold mb-6 text-white">Explora</h4>
-          <ul className="space-y-3 text-gray-500 text-sm">
-            <li>
-              <a href="#" className="hover:text-brand-red transition-colors">
-                Inicio
-              </a>
-            </li>
-            <li>
+          <h3 className="text-white font-serif text-lg mb-6">Contacto</h3>
+          <div className="space-y-5">
+            {/* Dirección */}
+            <div className="flex items-start gap-3 text-white/80">
+              <MapPin className="w-5 h-5 text-brand-red flex-shrink-0 mt-1" />
+              <div>
+                <p className="font-semibold text-white">Locky Barber</p>
+                <p className="text-gray-400">Calle Alejandro Sánchez, 16</p>
+                <p className="text-gray-400">28019, Madrid</p>
+              </div>
+            </div>
+
+            {/* Teléfono */}
+            <div className="flex items-center gap-3 text-white/80">
+              <Phone className="w-5 h-5 text-brand-red flex-shrink-0" />
               <a
-                href="#servicios"
-                className="hover:text-brand-red transition-colors"
+                href="tel:+34919124423"
+                className="text-gray-400 hover:text-brand-red transition-colors"
               >
-                Servicios
+                919 124 423
               </a>
-            </li>
-            <li>
-              <a
-                href="#galeria"
-                className="hover:text-brand-red transition-colors"
-              >
-                Galería
-              </a>
-            </li>
-            <li>
-              <a
-                href="#reserva"
-                className="hover:text-brand-red transition-colors"
-              >
-                Reservar
-              </a>
-            </li>
-          </ul>
+            </div>
+
+            {/* Horario */}
+            <div className="flex items-start gap-3 text-white/80">
+              <Clock className="w-5 h-5 text-brand-red flex-shrink-0 mt-1" />
+              <div>
+                <p className="font-semibold text-white">Horario</p>
+                <p className="text-gray-400">Lunes - Sábado</p>
+                <p className="text-gray-400">10:00 - 20:00</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Contacto */}
+        {/* Columna 3: Mapa de Google Maps */}
         <div>
-          <h4 className="font-bold mb-6 text-white">Contacto</h4>
-          <ul className="space-y-3 text-gray-500 text-sm">
-            <li className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-brand-red" /> Calle Ejemplo 123,
-              Madrid
-            </li>
-            <li className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-brand-red" /> +34 912 345 678
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-brand-red" /> citas@lockybarber.es
-            </li>
-          </ul>
-        </div>
-
-        {/* Horario */}
-        <div>
-          <h4 className="font-bold mb-6 text-white">Horario</h4>
-          <ul className="space-y-3 text-gray-500 text-sm">
-            <li className="flex justify-between">
-              <span>Lun - Vie</span> <span>10:00 - 20:00</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Sábado</span> <span>09:00 - 18:00</span>
-            </li>
-            <li className="flex justify-between text-brand-red">
-              <span>Domingo</span> <span>Cerrado</span>
-            </li>
-          </ul>
+          <h3 className="text-white font-serif text-lg mb-6">Ubicación</h3>
+          <div className="w-full h-[220px] md:h-[250px] rounded-xl overflow-hidden border border-white/10">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.123456789!2d-3.724!3d40.416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42287b2f5c4b0f%3A0x9c8f1c2e3d4a5b6c!2sCalle%20Alejandro%20S%C3%A1nchez%2C%2016%2C%2028019%20Madrid!5e0!3m2!1ses!2ses!4v1"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación de Locky Barber"
+            />
+          </div>
         </div>
       </div>
 

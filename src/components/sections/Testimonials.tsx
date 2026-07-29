@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -42,12 +43,25 @@ export default function Testimonials() {
   return (
     <section
       id="testimonios"
-      className="py-24 px-6 md:px-12 bg-brand-gray relative overflow-hidden"
+      className="py-24 px-6 md:px-12 relative overflow-hidden"
     >
+      {/* Imagen de fondo: instrumentos de peluquería */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/gallery/barber-tools.jpg"
+          alt="Instrumentos de peluquería"
+          fill
+          className="object-cover"
+          quality={70}
+        />
+        {/* Overlay oscuro para legibilidad del texto */}
+        <div className="absolute inset-0 bg-black/75" />
+      </div>
+
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Valoración Media Destacada */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-brand-black px-6 py-3 rounded-full border border-white/10">
+          <div className="inline-flex items-center gap-2 bg-[#0F0F0F] px-6 py-3 rounded-full border border-white/10">
             <Star className="w-5 h-5 text-brand-red fill-brand-red" />
             <span className="text-2xl font-bold text-white">4.9/5</span>
             <span className="text-gray-400 text-sm ml-2">
@@ -56,44 +70,49 @@ export default function Testimonials() {
           </div>
         </div>
 
-        {/* Slider de Tarjetas */}
-        <div className="relative max-w-4xl mx-auto min-h-[300px]">
-          {testimonials.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{
-                opacity: activeIndex === index ? 1 : 0,
-                x: activeIndex === index ? 0 : 50,
-                display: activeIndex === index ? "block" : "none",
-              }}
-              transition={{ duration: 0.5 }}
-              className="bg-brand-black p-8 md:p-12 rounded-2xl border border-white/5 shadow-xl text-center"
-            >
-              <Quote className="w-10 h-10 text-brand-red/30 mx-auto mb-6" />
-              <p className="text-xl md:text-2xl font-serif italic text-gray-200 mb-8 leading-relaxed">
-                "{item.text}"
-              </p>
-              <div>
-                <h4 className="text-lg font-bold text-white">{item.name}</h4>
-                <span className="text-sm text-brand-red uppercase tracking-wider">
-                  {item.role}
-                </span>
-              </div>
+        {/* Slider de Tarjetas - altura fija para evitar saltos */}
+        <div className="relative max-w-4xl mx-auto">
+          <div className="relative h-[320px] md:h-[280px]">
+            <AnimatePresence mode="wait">
+              {testimonials.map((item, index) =>
+                activeIndex === index ? (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-[#0F0F0F] p-8 md:p-12 rounded-2xl border border-white/5 shadow-xl text-center"
+                  >
+                    <Quote className="w-10 h-10 text-brand-red/30 mx-auto mb-6" />
+                    <p className="text-xl md:text-2xl font-serif italic text-gray-200 mb-8 leading-relaxed">
+                      "{item.text}"
+                    </p>
+                    <div>
+                      <h4 className="text-lg font-bold text-white">
+                        {item.name}
+                      </h4>
+                      <span className="text-sm text-brand-red uppercase tracking-wider">
+                        {item.role}
+                      </span>
+                    </div>
 
-              {/* Estrellas individuales */}
-              <div className="flex justify-center gap-1 mt-4">
-                {[...Array(item.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 text-brand-red fill-brand-red"
-                  />
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                    {/* Estrellas individuales */}
+                    <div className="flex justify-center gap-1 mt-4">
+                      {[...Array(item.rating)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-4 h-4 text-brand-red fill-brand-red"
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                ) : null,
+              )}
+            </AnimatePresence>
+          </div>
 
-          {/* Indicadores (Puntos) */}
+          {/* Indicadores (Puntos) - FUERA del contenedor de altura variable */}
           <div className="flex justify-center gap-3 mt-8">
             {testimonials.map((_, index) => (
               <button

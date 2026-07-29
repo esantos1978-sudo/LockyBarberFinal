@@ -33,7 +33,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${playfairDisplay.variable} ${poppins.variable} h-full antialiased`}
+      className={`${playfairDisplay.variable} ${poppins.variable} h-full antialiased bg-[#0F0F0F]`}
     >
       <body className="min-h-full flex flex-col bg-brand-black text-white overflow-x-hidden">
         {children}
