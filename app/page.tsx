@@ -5,7 +5,6 @@ import VideoShowcase from "@/components/sections/VideoShowcase";
 import Services from "@/components/sections/Services";
 import Gallery from "@/components/sections/Gallery";
 import Testimonials from "@/components/sections/Testimonials";
-import BookingForm from "@/components/sections/BookingForm";
 import BlogPreview from "@/components/sections/BlogPreview";
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import { motion } from "framer-motion";
@@ -64,9 +63,14 @@ export default function Home() {
             transition={{ delay: 0.8 }}
             className="flex flex-col md:flex-row gap-4 justify-center"
           >
-            <button className="bg-brand-red text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-brand-black transition-all duration-300 shadow-[0_0_20px_rgba(193,18,31,0.4)]">
+            <a
+              href="https://booksy.com/es-es/84657_locky-barber-shop_barberia_53009_madrid#ba_s=seo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-brand-red text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-brand-black transition-all duration-300 shadow-[0_0_20px_rgba(193,18,31,0.4)] inline-block"
+            >
               Reservar Ahora
-            </button>
+            </a>
             <button className="border border-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
               Ver Trabajos
             </button>
@@ -97,7 +101,6 @@ export default function Home() {
       <Services />
       <Gallery />
       <Testimonials />
-      <BookingForm />
       <BlogPreview />
 
       <Footer />

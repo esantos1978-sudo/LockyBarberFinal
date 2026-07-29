@@ -8,47 +8,118 @@ import {
   Phone,
   Mail,
   MessageSquare,
+  CheckCircle,
+  Loader2,
+  Scissors,
+  ChevronDown,
 } from "lucide-react";
 import { useState } from "react";
 
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
+interface FormData {
+  nombre: string;
+  telefono: string;
+  email: string;
+  servicio: string;
+  fecha: string;
+  hora: string;
+  notas: string;
+}
+
+const initialFormData: FormData = {
+  nombre: "",
+  telefono: "",
+  email: "",
+  servicio: "Corte de Pelo",
+  fecha: "",
+  hora: "",
+  notas: "",
+};
+
 export default function BookingForm() {
-  const [formStatus, setFormStatus] = useState<
-    "idle" | "submitting" | "success"
-  >("idle");
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus("submitting");
-
-    // Simulamos envío a servidor
-    setTimeout(() => {
-      setFormStatus("success");
-    }, 1500);
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (formStatus === "success") {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT!,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        },
+      );
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData(initialFormData);
+      } else {
+        const data = await response.json();
+        setErrorMessage(data?.error || "Hubo un error al enviar tu solicitud.");
+        setStatus("error");
+      }
+    } catch {
+      setErrorMessage(
+        "Hubo un error al enviar. Por favor, llámanos al 919 124 423.",
+      );
+      setStatus("error");
+    }
+  };
+
+  const resetForm = () => {
+    setStatus("idle");
+    setErrorMessage("");
+    setFormData(initialFormData);
+  };
+
+  // --- Pantalla de éxito premium ---
+  if (status === "success") {
     return (
       <section className="py-24 px-6 bg-brand-black flex items-center justify-center min-h-[600px]">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center max-w-md p-8 bg-brand-gray rounded-2xl border border-brand-red/30"
+          className="text-center max-w-lg mx-auto bg-green-500/10 border border-green-500/30 rounded-lg p-6 shadow-2xl shadow-black/50"
         >
-          <div className="w-16 h-16 bg-brand-red rounded-full flex items-center justify-center mx-auto mb-6">
-            <Calendar className="text-white w-8 h-8" />
-          </div>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 ring-2 ring-green-500/30"
+          >
+            <CheckCircle className="text-green-400 w-8 h-8" />
+          </motion.div>
           <h3 className="text-3xl font-serif font-bold text-white mb-4">
             ¡Solicitud Recibida!
           </h3>
-          <p className="text-gray-400">
-            Te hemos enviado un correo de confirmación. Nos pondremos en
-            contacto contigo en breve para confirmar la hora exacta.
+          <p className="text-white/60 leading-relaxed text-sm max-w-sm mx-auto">
+            Hemos recibido tu solicitud. Te contactaremos pronto para confirmar
+            tu cita.
           </p>
           <button
-            onClick={() => setFormStatus("idle")}
-            className="mt-8 text-brand-red hover:text-white underline underline-offset-4"
+            onClick={resetForm}
+            className="mt-8 px-8 py-3 border border-white/30 text-white/80 hover:text-white hover:border-white rounded-full text-sm tracking-wider uppercase transition-all duration-300"
           >
-            Realizar otra reserva
+            Reservar otra cita
           </button>
         </motion.div>
       </section>
@@ -58,99 +129,248 @@ export default function BookingForm() {
   return (
     <section
       id="reserva"
-      className="py-24 px-6 md:px-12 bg-brand-black relative"
+      className="py-24 px-6 md:px-12 bg-brand-black relative overflow-hidden"
     >
-      {/* Elemento decorativo de fondo */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-brand-gray to-transparent opacity-30 pointer-events-none"></div>
+      {/* Elementos decorativos de fondo */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-white/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-red/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        <div className="bg-brand-gray p-8 md:p-12 rounded-2xl border border-white/5 shadow-2xl">
-          <div className="text-center mb-10">
-            <span className="text-brand-red uppercase tracking-[0.2em] text-sm font-semibold">
-              Agenda tu Cita
+      <div className="max-w-2xl mx-auto relative z-10">
+        {/* Contenedor principal */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl shadow-black/50">
+          {/* Encabezado */}
+          <div className="text-center mb-8">
+            <span className="text-brand-red uppercase tracking-[0.3em] text-xs font-semibold">
+              Reservas
             </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mt-2 text-white">
-              Reserva tu momento
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mt-3 mb-2">
+              RESERVA TU CITA
             </h2>
-            <p className="text-gray-400 mt-2">
-              Te confirmaremos disponibilidad en menos de 1 hora
+            <p className="text-white/60 text-sm">
+              Completa el formulario y te confirmaremos por email
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Nombre */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-400 ml-1 flex items-center gap-2">
-                  <User size={14} /> Nombre
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="w-full bg-brand-black border border-white/10 rounded-lg px-4 py-3 focus:border-brand-red focus:outline-none transition-colors text-white placeholder-gray-600"
-                  placeholder="Tu nombre completo"
-                />
+          <form onSubmit={handleSubmit} noValidate>
+            {/* ===== SECCIÓN 1: TUS DATOS ===== */}
+            <div>
+              <h3 className="text-xs uppercase tracking-widest text-brand-red font-semibold mb-4">
+                Tus datos
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Nombre */}
+                <div className="mb-5">
+                  <label className="block text-sm text-white/80 mb-2 font-medium">
+                    Nombre completo <span className="text-brand-red">*</span>
+                  </label>
+                  <div className="relative">
+                    <User
+                      size={16}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+                    />
+                    <input
+                      type="text"
+                      name="nombre"
+                      value={formData.nombre}
+                      onChange={handleChange}
+                      required
+                      placeholder="Tu nombre"
+                      className={`w-full bg-white/5 border rounded-lg pl-11 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-1 transition-all duration-200 ${
+                        status === "error" && !formData.nombre
+                          ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
+                          : "border-white/10 focus:border-brand-red focus:ring-brand-red/50"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                {/* Teléfono */}
+                <div className="mb-5">
+                  <label className="block text-sm text-white/80 mb-2 font-medium">
+                    Teléfono <span className="text-brand-red">*</span>
+                  </label>
+                  <div className="relative">
+                    <Phone
+                      size={16}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+                    />
+                    <input
+                      type="tel"
+                      name="telefono"
+                      value={formData.telefono}
+                      onChange={handleChange}
+                      required
+                      placeholder="+34 600 000 000"
+                      className={`w-full bg-white/5 border rounded-lg pl-11 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-1 transition-all duration-200 ${
+                        status === "error" && !formData.telefono
+                          ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
+                          : "border-white/10 focus:border-brand-red focus:ring-brand-red/50"
+                      }`}
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Teléfono */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-400 ml-1 flex items-center gap-2">
-                  <Phone size={14} /> Teléfono
+              {/* Email (ancho completo) */}
+              <div className="mb-5">
+                <label className="block text-sm text-white/80 mb-2 font-medium">
+                  Email{" "}
+                  <span className="text-white/30 font-normal">(opcional)</span>
                 </label>
-                <input
-                  type="tel"
-                  required
-                  className="w-full bg-brand-black border border-white/10 rounded-lg px-4 py-3 focus:border-brand-red focus:outline-none transition-colors text-white placeholder-gray-600"
-                  placeholder="+34 600 000 000"
-                />
+                <div className="relative">
+                  <Mail
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="tu@email.com"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red/50 transition-all duration-200"
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Servicio */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-400 ml-1">Servicio</label>
-                <select className="w-full bg-brand-black border border-white/10 rounded-lg px-4 py-3 focus:border-brand-red focus:outline-none transition-colors text-gray-300">
-                  <option>Corte de Pelo</option>
-                  <option>Barba</option>
-                  <option>Coloración</option>
-                  <option>Tratamiento Capilar</option>
-                </select>
-              </div>
+            {/* Separador */}
+            <div className="border-t border-white/10 my-6" />
 
-              {/* Fecha */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-400 ml-1 flex items-center gap-2">
-                  <Calendar size={14} /> Fecha Preferida
+            {/* ===== SECCIÓN 2: TU CITA ===== */}
+            <div>
+              <h3 className="text-xs uppercase tracking-widest text-brand-red font-semibold mb-4">
+                Tu cita
+              </h3>
+
+              {/* Servicio (ancho completo) */}
+              <div className="mb-5">
+                <label className="block text-sm text-white/80 mb-2 font-medium">
+                  Servicio
                 </label>
-                <input
-                  type="date"
-                  className="w-full bg-brand-black border border-white/10 rounded-lg px-4 py-3 focus:border-brand-red focus:outline-none transition-colors text-gray-300 [color-scheme:dark]"
-                />
+                <div className="relative">
+                  <Scissors
+                    size={16}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 z-10"
+                  />
+                  <select
+                    name="servicio"
+                    value={formData.servicio}
+                    onChange={handleChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-11 pr-10 py-3 text-white appearance-none focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red/50 transition-all duration-200 cursor-pointer"
+                  >
+                    <option className="bg-brand-black">Corte de Pelo</option>
+                    <option className="bg-brand-black">Barba</option>
+                    <option className="bg-brand-black">Coloración</option>
+                    <option className="bg-brand-black">
+                      Tratamiento Capilar
+                    </option>
+                  </select>
+                  <ChevronDown
+                    size={16}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
+                  />
+                </div>
+              </div>
+
+              {/* Fecha y Hora */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Fecha */}
+                <div className="mb-5">
+                  <label className="block text-sm text-white/80 mb-2 font-medium">
+                    Fecha preferida
+                  </label>
+                  <div className="relative">
+                    <Calendar
+                      size={16}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+                    />
+                    <input
+                      type="date"
+                      name="fecha"
+                      value={formData.fecha}
+                      onChange={handleChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white [color-scheme:dark] focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red/50 transition-all duration-200"
+                    />
+                  </div>
+                </div>
+
+                {/* Hora */}
+                <div className="mb-5">
+                  <label className="block text-sm text-white/80 mb-2 font-medium">
+                    Hora preferida
+                  </label>
+                  <div className="relative">
+                    <Clock
+                      size={16}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+                    />
+                    <input
+                      type="time"
+                      name="hora"
+                      value={formData.hora}
+                      onChange={handleChange}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white [color-scheme:dark] focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red/50 transition-all duration-200"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Notas (ancho completo) */}
+              <div className="mb-5">
+                <label className="block text-sm text-white/80 mb-2 font-medium">
+                  Comentarios{" "}
+                  <span className="text-white/30 font-normal">(opcional)</span>
+                </label>
+                <div className="relative">
+                  <MessageSquare
+                    size={16}
+                    className="absolute left-4 top-5 text-white/40"
+                  />
+                  <textarea
+                    name="notas"
+                    rows={3}
+                    value={formData.notas}
+                    onChange={handleChange}
+                    placeholder="¿Alguna preferencia especial?"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red/50 transition-all duration-200 resize-none"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Comentarios */}
-            <div className="space-y-2">
-              <label className="text-sm text-gray-400 ml-1 flex items-center gap-2">
-                <MessageSquare size={14} /> Comentarios (Opcional)
-              </label>
-              <textarea
-                rows={3}
-                className="w-full bg-brand-black border border-white/10 rounded-lg px-4 py-3 focus:border-brand-red focus:outline-none transition-colors text-white placeholder-gray-600"
-                placeholder="¿Alguna preferencia especial?"
-              ></textarea>
+            {/* Botón de envío premium */}
+            <div className="mt-8 text-center">
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="w-full md:w-auto px-8 py-4 bg-brand-red hover:bg-red-700 text-white font-serif text-lg tracking-wide rounded-full hover:shadow-lg hover:shadow-red-900/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto"
+              >
+                {status === "submitting" ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  "Confirmar Solicitud"
+                )}
+              </button>
             </div>
 
-            <button
-              type="submit"
-              disabled={formStatus === "submitting"}
-              className="w-full bg-brand-red hover:bg-white hover:text-brand-red text-white font-bold py-4 rounded-lg transition-all duration-300 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {formStatus === "submitting"
-                ? "Enviando..."
-                : "CONFIRMAR SOLICITUD"}
-            </button>
+            {/* Mensaje de error */}
+            {status === "error" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-center"
+              >
+                <p className="text-red-400 text-sm">
+                  {errorMessage ||
+                    "Hubo un error al enviar. Por favor, llámanos al 919 124 423."}
+                </p>
+              </motion.div>
+            )}
           </form>
         </div>
       </div>

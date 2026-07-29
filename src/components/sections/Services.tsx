@@ -124,13 +124,14 @@ export default function Services() {
                       {service.duration}
                     </span>
                   </div>
-                  <button
-                    data-service={service.title}
-                    onClick={() => console.log(`Reservar: ${service.title}`)}
+                  <a
+                    href="https://booksy.com/es-es/84657_locky-barber-shop_barberia_53009_madrid#ba_s=seo"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm font-medium underline decoration-brand-red underline-offset-4 hover:text-brand-red transition-colors"
                   >
                     Reservar
-                  </button>
+                  </a>
                 </div>
               </div>
             </motion.div>

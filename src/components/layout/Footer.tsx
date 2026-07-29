@@ -42,7 +42,9 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#reserva"
+                  href="https://booksy.com/es-es/84657_locky-barber-shop_barberia_53009_madrid#ba_s=seo"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-brand-red transition-colors"
                 >
                   Reservar

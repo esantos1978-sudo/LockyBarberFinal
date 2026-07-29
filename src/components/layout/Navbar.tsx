@@ -59,11 +59,16 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Botón Reservar (Escritorio) */}
+        {/* Botón Reservar (Escritorio) - Booksy */}
         <div className="hidden md:block">
-          <button className="bg-brand-red hover:bg-white hover:text-brand-black text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(193,18,31,0.3)]">
+          <a
+            href="https://booksy.com/es-es/84657_locky-barber-shop_barberia_53009_madrid#ba_s=seo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-brand-red hover:bg-white hover:text-brand-black text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(193,18,31,0.3)] inline-block"
+          >
             Reservar Cita
-          </button>
+          </a>
         </div>
 
         {/* Botón Menú Móvil */}
@@ -94,9 +99,15 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <button className="bg-brand-red text-white px-8 py-3 rounded-full mt-4">
+            <a
+              href="https://booksy.com/es-es/84657_locky-barber-shop_barberia_53009_madrid#ba_s=seo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-brand-red text-white px-8 py-3 rounded-full mt-4 inline-block"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               Reservar Ahora
-            </button>
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

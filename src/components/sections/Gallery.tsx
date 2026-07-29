@@ -1,124 +1,234 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
-// Datos de ejemplo para la galería
+// 6 fotos reales optimizadas a WebP
 const galleryItems = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800",
-    category: "Corte",
-    height: "h-64",
+    src: "/images/gallery/webp/corte2_mod.webp",
+    category: "Corte Moderno",
+    height: "h-80",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=800",
-    category: "Barba",
+    src: "/images/gallery/webp/corte17_mod.webp",
+    category: "Estilo Clásico",
     height: "h-96",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=800",
-    category: "Color",
+    src: "/images/gallery/webp/corte28_mod.webp",
+    category: "Degradado",
     height: "h-72",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=800",
-    category: "Estilo",
-    height: "h-80",
-  },
-  {
-    id: 5,
-    src: "https://images.unsplash.com/photo-1593702295094-aea8c5c13d99?q=80&w=800",
-    category: "Corte",
+    src: "/images/gallery/webp/corte_chica_trenza_mod.webp",
+    category: "Trenzas",
     height: "h-64",
   },
   {
-    id: 6,
-    src: "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?q=80&w=800",
-    category: "Barba",
+    id: 5,
+    src: "/images/gallery/webp/corte_cunha.webp",
+    category: "Corte Mujer",
     height: "h-96",
+  },
+  {
+    id: 6,
+    src: "/images/gallery/webp/corte_verde.webp",
+    category: "Color",
+    height: "h-80",
   },
 ];
 
 export default function Gallery() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const openLightbox = (index: number) => setSelectedIndex(index);
+  const closeLightbox = () => setSelectedIndex(null);
+
+  const goNext = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % galleryItems.length);
+    }
+  };
+
+  const goPrev = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex(
+        (selectedIndex - 1 + galleryItems.length) % galleryItems.length,
+      );
+    }
+  };
 
   return (
-    <section id="galeria" className="py-24 px-6 md:px-12 bg-brand-black">
+    <section
+      id="galeria"
+      className="py-24 px-6 md:px-12 bg-brand-black relative"
+    >
+      {/* Línea decorativa superior */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-brand-red to-transparent" />
+
       <div className="max-w-7xl mx-auto">
         {/* Encabezado */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row justify-between items-end mb-16"
+        >
           <div>
-            <span className="text-brand-red uppercase tracking-[0.2em] text-sm font-semibold">
+            <span className="text-brand-red uppercase tracking-[0.3em] text-sm font-semibold">
               Portfolio
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mt-2 text-white">
-              Nuestros Trabajos
+            <h2 className="text-4xl md:text-6xl font-serif font-bold mt-3 text-white">
+              Nuestros <span className="italic text-brand-red">Trabajos</span>
             </h2>
+            <p className="text-gray-400 mt-3 max-w-md text-sm leading-relaxed">
+              Cada corte cuenta una historia. Descubre nuestra galería de
+              transformaciones reales.
+            </p>
           </div>
 
-          {/* Filtros simples */}
-          <div className="flex gap-2 mt-4 md:mt-0 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-            {["Todos", "Mujer", "Hombre", "Color"].map((filter) => (
-              <button
-                key={filter}
-                className="px-4 py-2 border border-white/20 rounded-full text-sm font-medium hover:bg-brand-red hover:border-brand-red hover:text-white transition-all whitespace-nowrap"
-              >
-                {filter}
-              </button>
-            ))}
+          {/* Contador de fotos */}
+          <div className="hidden md:flex items-center gap-2 text-gray-500 text-sm">
+            <span className="w-8 h-px bg-gray-700" />
+            <span>{galleryItems.length} trabajos</span>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Grid Masonry Simulado con Columnas CSS */}
-        <div className="columns-1 md:columns-3 gap-4 space-y-4">
+        {/* Grid Masonry Premium */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
           {galleryItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg"
-              onClick={() => setSelectedImage(item.src)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl"
+              onClick={() => openLightbox(index)}
             >
+              {/* Imagen */}
               <img
                 src={item.src}
                 alt={item.category}
-                className={`w-full ${item.height} object-cover transition-transform duration-500 group-hover:scale-110`}
+                loading="lazy"
+                className={`w-full ${item.height} object-cover transition-all duration-700 group-hover:scale-110`}
               />
 
-              {/* Overlay al hacer hover */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-white font-serif italic text-xl">
+              {/* Overlay degradado */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+              {/* Contenido del hover */}
+              <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                <span className="text-white font-serif italic text-xl mb-2">
                   {item.category}
                 </span>
+                <div className="flex items-center gap-2 text-white/60 text-xs">
+                  <Maximize2 size={12} />
+                  <span>Ver completo</span>
+                </div>
               </div>
+
+              {/* Esquina decorativa */}
+              <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-white/0 group-hover:border-white/40 transition-all duration-500" />
+              <div className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-white/0 group-hover:border-white/40 transition-all duration-500" />
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button className="absolute top-6 right-6 text-white hover:text-brand-red">
-            <X size={32} />
-          </button>
-          <img
-            src={selectedImage}
-            alt="Vista ampliada"
-            className="max-h-[90vh] max-w-full rounded-lg shadow-2xl"
-          />
-        </div>
-      )}
+      {/* Lightbox Modal Premium */}
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 md:p-8"
+            onClick={closeLightbox}
+          >
+            {/* Botón cerrar */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 text-white/60 hover:text-white hover:scale-110 transition-all z-10"
+            >
+              <X size={28} />
+            </button>
+
+            {/* Navegación izquierda */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goPrev();
+              }}
+              className="absolute left-4 md:left-8 text-white/40 hover:text-white transition-all hover:scale-110"
+            >
+              <ChevronLeft size={40} />
+            </button>
+
+            {/* Imagen ampliada */}
+            <motion.div
+              key={selectedIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="relative max-h-[85vh] max-w-[90vw]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={galleryItems[selectedIndex].src}
+                alt={galleryItems[selectedIndex].category}
+                className="max-h-[85vh] max-w-[90vw] object-contain rounded-xl shadow-2xl shadow-black/50"
+              />
+
+              {/* Info inferior */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl">
+                <p className="text-white font-serif italic text-lg">
+                  {galleryItems[selectedIndex].category}
+                </p>
+                <p className="text-white/50 text-sm mt-1">
+                  {selectedIndex + 1} / {galleryItems.length}
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Navegación derecha */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goNext();
+              }}
+              className="absolute right-4 md:right-8 text-white/40 hover:text-white transition-all hover:scale-110"
+            >
+              <ChevronRight size={40} />
+            </button>
+
+            {/* Indicador de posición (escritorio) */}
+            <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-2">
+              {galleryItems.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex(i);
+                  }}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    i === selectedIndex
+                      ? "bg-brand-red w-6"
+                      : "bg-white/30 hover:bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
