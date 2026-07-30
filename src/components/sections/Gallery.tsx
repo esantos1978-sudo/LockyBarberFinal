@@ -5,36 +5,36 @@ import { useState } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Maximize2, ZoomIn } from "lucide-react";
 
-// 6 fotos reales optimizadas a WebP
+// 6 fotos originales (JPG/PNG)
 const galleryItems = [
   {
     id: 1,
-    src: "/images/gallery/webp/corte2_mod.webp",
+    src: "/images/gallery/corte2_mod.jpg",
     category: "Corte Moderno",
   },
   {
     id: 2,
-    src: "/images/gallery/webp/corte17_mod.webp",
+    src: "/images/gallery/corte17_mod.jpg",
     category: "Estilo Clásico",
   },
   {
     id: 3,
-    src: "/images/gallery/webp/corte28_mod.webp",
+    src: "/images/gallery/corte28_mod.jpg",
     category: "Degradado",
   },
   {
     id: 4,
-    src: "/images/gallery/webp/corte_chica_trenza_mod.webp",
+    src: "/images/gallery/corte_chica_trenza_mod.png",
     category: "Trenzas",
   },
   {
     id: 5,
-    src: "/images/gallery/webp/corte_cunha.webp",
+    src: "/images/gallery/corte_cunha.jpeg",
     category: "Corte Mujer",
   },
   {
     id: 6,
-    src: "/images/gallery/webp/corte_verde.webp",
+    src: "/images/gallery/corte_verde.png",
     category: "Color",
   },
 ];
