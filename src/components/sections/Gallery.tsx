@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Maximize2, ZoomIn } from "lucide-react";
 
 // 6 fotos originales (JPG/PNG)
@@ -108,14 +107,13 @@ export default function Gallery() {
               onClick={() => openLightbox(index)}
             >
               {/* Imagen con altura uniforme */}
-              <Image
+              <img
                 src={item.src}
                 alt={item.category}
                 width={600}
                 height={400}
                 className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
-                quality={70}
               />
 
               {/* Overlay en hover */}
