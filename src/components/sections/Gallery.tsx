@@ -2,7 +2,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import Image from "next/image";
+import { X, ChevronLeft, ChevronRight, Maximize2, ZoomIn } from "lucide-react";
 
 // 6 fotos reales optimizadas a WebP
 const galleryItems = [
@@ -10,37 +11,31 @@ const galleryItems = [
     id: 1,
     src: "/images/gallery/webp/corte2_mod.webp",
     category: "Corte Moderno",
-    height: "h-80",
   },
   {
     id: 2,
     src: "/images/gallery/webp/corte17_mod.webp",
     category: "Estilo Clásico",
-    height: "h-96",
   },
   {
     id: 3,
     src: "/images/gallery/webp/corte28_mod.webp",
     category: "Degradado",
-    height: "h-72",
   },
   {
     id: 4,
     src: "/images/gallery/webp/corte_chica_trenza_mod.webp",
     category: "Trenzas",
-    height: "h-64",
   },
   {
     id: 5,
     src: "/images/gallery/webp/corte_cunha.webp",
     category: "Corte Mujer",
-    height: "h-96",
   },
   {
     id: 6,
     src: "/images/gallery/webp/corte_verde.webp",
     category: "Color",
-    height: "h-80",
   },
 ];
 
@@ -100,8 +95,8 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* Grid Masonry Premium */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5">
+        {/* Grid Uniforme Premium */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {galleryItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -109,29 +104,23 @@ export default function Gallery() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl"
+              className="group relative cursor-pointer overflow-hidden rounded-lg bg-brand-black"
               onClick={() => openLightbox(index)}
             >
-              {/* Imagen */}
-              <img
+              {/* Imagen con altura uniforme */}
+              <Image
                 src={item.src}
                 alt={item.category}
+                width={600}
+                height={400}
+                className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
-                className={`w-full ${item.height} object-cover transition-all duration-700 group-hover:scale-110`}
+                quality={70}
               />
 
-              {/* Overlay degradado */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-
-              {/* Contenido del hover */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                <span className="text-white font-serif italic text-xl mb-2">
-                  {item.category}
-                </span>
-                <div className="flex items-center gap-2 text-white/60 text-xs">
-                  <Maximize2 size={12} />
-                  <span>Ver completo</span>
-                </div>
+              {/* Overlay en hover */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <ZoomIn className="w-8 h-8 text-white" />
               </div>
 
               {/* Esquina decorativa */}

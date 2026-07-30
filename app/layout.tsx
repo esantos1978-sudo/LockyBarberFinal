@@ -16,11 +16,58 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Locky Barber | Estilo Premium",
+  title: "Locky Barber | Peluquería de Caballeros Premium en Madrid",
   description:
-    "Expertos en cortes, coloración y cuidado capilar. Una experiencia sensorial diseñada para quienes no aceptan menos que la perfección.",
+    "Excelencia en cortes de caballero, degradados y perfilado de barba desde 2016. Tu peluquería de confianza en Calle Alejandro Sánchez, 16, Madrid. Reserva tu cita online.",
+  keywords: [
+    "peluquería caballeros madrid",
+    "barbería usera",
+    "corte degradado madrid",
+    "arreglo de barba",
+    "locky barber",
+  ],
+  authors: [{ name: "Locky Barber" }],
+  creator: "Locky Barber",
+  publisher: "Locky Barber",
+  metadataBase: new URL("https://lockybarber.vercel.app"),
+  openGraph: {
+    title: "Locky Barber | Peluquería de Caballeros Premium en Madrid",
+    description:
+      "Excelencia en cortes de caballero, degradados y perfilado de barba desde 2016. Reserva tu cita online.",
+    url: "https://lockybarber.vercel.app",
+    siteName: "Locky Barber",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Locky Barber Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Locky Barber | Peluquería de Caballeros Premium en Madrid",
+    description:
+      "Excelencia en cortes de caballero, degradados y perfilado de barba desde 2016.",
+    images: ["/logo.png"],
+  },
   icons: {
-    icon: "/logo.png",
+    icon: "/favicon.ico",
+    apple: "/logo.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
