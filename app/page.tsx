@@ -19,8 +19,9 @@ export default function Home() {
         {/* Fondo con imagen y overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop"
-            alt="Salón Premium"
+            src="/Images/gallery/hero_real.jpg"
+            alt="Fachada de Locky Barber"
+            fetchPriority="high"
             className="w-full h-full object-cover opacity-40 scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/60 to-transparent"></div>
