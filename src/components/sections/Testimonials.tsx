@@ -48,7 +48,7 @@ export default function Testimonials() {
       {/* Imagen de fondo: instrumentos de peluquería */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/gallery/barber-tools.jpg"
+          src="/Images/gallery/barber-tools.jpg"
           alt="Instrumentos de peluquería"
           fill
           className="object-cover"
