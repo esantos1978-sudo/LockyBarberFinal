@@ -63,7 +63,7 @@ const services = [
     icon: <Eye className="w-8 h-8 text-brand-red" />,
   },
   {
-    title: "Descoloración",
+    title: "Decoloración",
     description: "Decoloración capilar profesional con productos premium.",
     price: "70,00 €",
     duration: "3h",
